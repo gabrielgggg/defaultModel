@@ -1,0 +1,71 @@
+\documentclass[10pt]{article}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{mathpazo}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{eurosym}
+
+\usepackage[margin=1.2in]{geometry}
+
+\newcommand{\E}{\mathbb{E}}
+
+\title{Long-Term Debt Model}
+\author{Gabriel Mihalache}
+\date{September 2022}
+\pagestyle{empty}
+\begin{document}
+
+% \maketitle
+
+\begin{align}
+V\left(y, B\right) = \rho_D \log \left\{ \exp\left[ \dfrac{V^d(y)}{\rho_D} \right] +
+\exp \left[ \dfrac{V^r(y, B)}{\rho_D} \right] \right\}
+\end{align}
+
+\begin{align}
+\Pr\left(d = 1 \middle| y, B\right) = \dfrac{
+  \exp\left[ \dfrac{V^d(y)}{\rho_D} \right]
+}{\exp\left[ \dfrac{V^d(y)}{\rho_D} \right] +
+\exp \left[ \dfrac{V^r(y, B)}{\rho_D} \right]}
+= \dfrac{1}{1 + \exp \left[ \dfrac{V^r(y, B) - V^d(y)}{\rho_D} \right]}
+\end{align}
+
+\begin{align}
+V^d\left(y\right) = u\left[h\left(y\right)\right] + \beta \E_{y'|y} \left\{ \gamma V\left( y', 0 \right) +
+(1-\gamma) V^d\left(y'\right) \right\}
+\end{align}
+
+\begin{align}
+W\left(y, B, B'\right) = u\left[ y - \kappa B + q\left(y, B'\right) \left( B' - (1-\delta) B \right) \right] + \beta \E_{y'|y} V\left(y', B'\right)
+\end{align}
+
+\begin{align}
+V^r\left(y, B\right) = \rho_B \log \sum_{B'} \exp \left[ \dfrac{W\left(y, B, B'\right))}{\rho_B} \right]
+\end{align}
+
+\begin{align}
+\Pr\left(B' = x \middle| y, B \right) = \dfrac{
+  \exp \left[ \dfrac{W\left(y, B, x\right))}{\rho_B} \right]
+}{\sum_{i} \exp \left[ \dfrac{W\left(y, B, i\right))}{\rho_B} \right]}
+\end{align}
+
+\begin{align}
+q\left(y, B'\right) = \dfrac{1}{1+r} \E_{y'|y} \Pr\left(d=0 \middle| y', B'\right)
+\left[ \kappa + (1-\delta) \sum_{B''} \Pr\left( B'' \middle| y', B'\right) q\left(y', B''\right) \right]
+\end{align}
+
+\begin{align}
+u\left(c\right) = \dfrac{c^{1-\sigma} - 1}{1-\sigma}
+\end{align}
+
+\begin{align}
+h\left(y\right) = y - \max\{ 0, \lambda_0 y + \lambda_1 y^2 \}
+\end{align}
+
+\begin{align}
+\log y' = - (1-\rho) \dfrac{\sigma_y^2}{2 \left( 1 - \rho^2\right)} + \rho \log y + \sigma_y \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, 1)
+\end{align}
+
+\end{document}
