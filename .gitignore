@@ -1,0 +1,7 @@
+*.mod
+*.o
+bin/
+results/*.bin
+results/*.mat
+results/*.tab
+*.txt
