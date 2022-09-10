@@ -1,5 +1,5 @@
 # Sovereign Default Model with Long-Term Debt
-Computed with taste shocks (discrete choice methods) for $B'$ and $d$.
+Computed with taste shocks (discrete choice methods) for $B'$ and $d$. Fortran parallelized with OpenMP.
 
 Value and default option:
 
