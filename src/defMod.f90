@@ -74,14 +74,17 @@ CONTAINS
   END FUNCTION hFun
 
   SUBROUTINE simulate()
-    INTEGER, DIMENSION(simSz) :: ySimIx, bSimIx, bPrSimIx, dSimIx
-    REAL(wp), DIMENSION(simSz) :: spSim
+    INTEGER, DIMENSION(:), ALLOCATABLE :: ySimIx, bSimIx, bPrSimIx, dSimIx
+    REAL(wp), DIMENSION(:), ALLOCATABLE :: spSim
     INTEGER :: tIx, iunit
     REAL(wp) :: unifDraw
 
     CALL fixSeed()
+    
+    ALLOCATE( ySimIx(simSz), bSimIx(simSz), bPrSimIx(simSz), dSimIx(simSz) )
+    ALLOCATE( spSim(simSz) )
 
-    ySimIx(1) = ySz / 2 + 1
+    ySimIx(1) = CEILING(ySz / 2.0_wp)
     bSimIx(1) = 1
     bPrSimIx(1) = 1
     dSimIx(1) = 0 ! Not in default initially
