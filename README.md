@@ -23,7 +23,11 @@ $$ \Pr\left(B' = x \middle| y, B \right) = \dfrac{ \exp \left[ \dfrac{W\left(y, 
 
 Bond price schedule:
 
-$$ q\left(y, B'\right) = \dfrac{1}{1+r} \mathbb{E}_{y'|y} \Pr\left(d=0 \middle| y', B'\right) \left[ \kappa + (1-\delta) \sum_{B''} \Pr\left( B'' \middle| y', B'\right) q\left(y', B''\right) \right] $$
+$$ q\left(y, B'\right) = \dfrac{1}{1+r} \mathbb{E}_{y'|y} \Pr\left(d=0 \middle| y', B' \right) \left[ \kappa + (1-\delta) \mathcal{Q}(y', B') \right] $$
+
+with
+
+$$ \mathcal{Q}(y', B') = \sum_{B''} \Pr\left( B'' \middle| y', B' \right) q\left(y', B''\right) $$
 
 Functional forms and shocks:
 
