@@ -28,10 +28,15 @@ PROGRAM defaultModel
 !  END DO
 
   ! Initial values
-  ! TODO: construct these based on limit of finite horizon
-  V0 = 0.0_wp
-  Vd0 = 0.0_wp
-  q0 = 0.0_wp
+  Vd0 = uhy
+  q0 = 1.0_wp
+
+  !$OMP PARALLEL DO COLLAPSE(2) PRIVATE(yIx,bIx)
+  DO yIx = 1,ySz
+  DO bIx = 1,bSz
+    V0(yIx, bIx) = uFun(MAX(yGrid(yIx) - kappa * bGrid(bIx), 0.01_wp))
+  END DO
+  END DO
 
   ! Main lopp
   iter = 1
@@ -96,7 +101,7 @@ PROGRAM defaultModel
       MAXVAL(ABS( V1 - V0  )), &
       MAXVAL(ABS( Vd1 - Vd0 )) )
     errQ = MAXVAL(ABS( q1 - q0 ))
-    WRITE (*, "(I5,2ES20.5)") iter, errV, errQ
+    IF (MOD(iter, 10) == 0) WRITE (*, "(I5,2ES20.5)") iter, errV, errQ
     iter = iter + 1
     V0 = V1
     Vd0 = Vd1

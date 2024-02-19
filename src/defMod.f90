@@ -19,14 +19,14 @@ MODULE defMod
   REAL(wp), PARAMETER :: delta = (1 + rf) / macaulay - rf
   REAL(wp), PARAMETER :: kappa = delta + rf
 
-  REAL(wp), PARAMETER :: rhoD = 1.0D-4
-  REAL(wp), PARAMETER :: rhoB = 5.0D-5
+  REAL(wp), PARAMETER :: rhoD = 1.0D-5
+  REAL(wp), PARAMETER :: rhoB = 3.0D-6
 
   INTEGER, PARAMETER :: maxIter = 1000, simSz = 100000
-  INTEGER, PARAMETER :: ySz = 25
-  INTEGER, PARAMETER :: bSz = 400
-  REAL(wp), PARAMETER :: tolErrV = 1.0D-6, tolErrQ = 1.0D-5
-  REAL(wp), PARAMETER :: bMin = 0.0_wp, bMax = 0.5_wp
+  INTEGER, PARAMETER :: ySz = 31
+  INTEGER, PARAMETER :: bSz = 600
+  REAL(wp), PARAMETER :: tolErrV = 1.0D-6, tolErrQ = 1.0D-6
+  REAL(wp), PARAMETER :: bMin = 0.0_wp, bMax = 0.6_wp
   REAL(wp), PARAMETER :: veryNegative = -1.0D+6
 
   REAL(wp), DIMENSION(ySz) :: yGrid(ySz), yStat(ySz)
@@ -84,7 +84,7 @@ CONTAINS
     ALLOCATE( ySimIx(simSz), bSimIx(simSz), bPrSimIx(simSz), dSimIx(simSz) )
     ALLOCATE( spSim(simSz) )
 
-    ySimIx(1) = CEILING(ySz / 2.0_wp)
+    ySimIx(1) = CEILING(REAL(ySz, wp) / 2.0_wp)
     bSimIx(1) = 1
     bPrSimIx(1) = 1
     dSimIx(1) = 0 ! Not in default initially
@@ -122,7 +122,7 @@ CONTAINS
         spSim(tIx) = veryNegative
       END IF
 
-      IF (MOD(tIx, 1000) == 0) THEN
+      IF (MOD(tIx, 10000) == 0) THEN
         WRITE (*, *) "Simulated ", tIx, " out of ", simSz
       END IF
     END DO

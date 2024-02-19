@@ -1,15 +1,15 @@
 
-tools = intel
+tools = ifx
 
-ifeq ($(tools),intel)
+ifeq ($(tools),ifort)
   compiler = ifort
-  flags = -Ofast -parallel -align -xHost -qopenmp -ipo -std18 -warn all,noexternal # -CB -g 
+  flags = -Ofast -parallel -align -xHost -qopenmp -ipo -std18 -warn all,noexternal
   libs = -mkl
-else ifeq ($(tools),intelLLVM)
+else ifeq ($(tools),ifx)
   compiler = ifx
   flags = -Ofast -align -xHost -qopenmp -ipo -std18 -g -warn all,noexternal 
   libs = -qmkl
-else ifeq ($(tools),gnu)
+else ifeq ($(tools),gfortran)
   compiler = gfortran
   flags = -Ofast -march=native -mtune=native -pipe -fopenmp -flto -Wall -pedantic -g
   libs = -llapack -lblas -lm
