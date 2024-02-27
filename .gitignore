@@ -4,4 +4,5 @@ bin/
 results/*.bin
 results/*.mat
 results/*.tab
+results/*.pdf
 *.txt

@@ -1,17 +1,16 @@
 #!/bin/bash
-#SBATCH --account=PAS2282
-#SBATCH -p debug-40core
+#SBATCH --account=PAS2493
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --mem=0 
-#SBATCH -t 0-01:00:00
+#SBATCH -t 0-00:30:00
 #SBATCH -J defModel
 #SBATCH -o out.txt
 #SBATCH -e err.txt
 
 set -xe
 
-module load intel/2021.3.0
+module load oneapi/2024.0.2
 
 export MV2_ENABLE_AFFINITY=0
 export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
@@ -24,9 +23,7 @@ make clean &>> log.txt
 make -j$SLURM_CPUS_ON_NODE &>> log.txt
 
 date >> log.txt
-# srun -n $SLURM_JOB_NUM_NODES -c $SLURM_CPUS_ON_NODE ./bin/defaultModel &>> log.txt
 ./bin/defaultModel &>> log.txt
-
 date >> log.txt
 echo "End." &>> ./log.txt
 

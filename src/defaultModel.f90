@@ -23,10 +23,6 @@ PROGRAM defaultModel
   hy = hFun(yGrid)
   uhy = uFun(hy)
 
-!  DO yIx = 1,ySz
-!    WRITE (*, "(I5,2(A,F10.5))") yIx, CHAR(9), yGrid(yIx), CHAR(9), hy(yIx)
-!  END DO
-
   ! Initial values
   Vd0 = uhy
   q0 = 1.0_wp

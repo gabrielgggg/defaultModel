@@ -8,25 +8,25 @@ MODULE defMod
   CHARACTER(LEN=1), PARAMETER :: TAB = CHAR(9)
 
   REAL(wp), PARAMETER :: crra = 2.0_wp
-  REAL(wp), PARAMETER :: lbd0 = -0.4_wp, lbd1 = 0.445_wp
-  REAL(wp), PARAMETER :: rhoY = 0.9_wp
-  REAL(wp), PARAMETER :: sigmaY = 0.01_wp
+  REAL(wp), PARAMETER :: lbd0 = -0.48_wp, lbd1 = 0.525_wp
+  REAL(wp), PARAMETER :: rhoY = 0.95_wp
+  REAL(wp), PARAMETER :: sigmaY = 0.005_wp
   REAL(wp), PARAMETER :: rf = 1.04_wp**0.25_wp - 1.0_wp
-  REAL(wp), PARAMETER :: beta = 0.98_wp
+  REAL(wp), PARAMETER :: beta = 0.9775_wp
   REAL(wp), PARAMETER :: gamm = 1.0_wp / (2.0_wp * 4.0_wp)
 
   REAL(wp), PARAMETER :: macaulay = 5.0_wp * 4.0_wp ! 20 quarters Macaulay duration
   REAL(wp), PARAMETER :: delta = (1 + rf) / macaulay - rf
   REAL(wp), PARAMETER :: kappa = delta + rf
 
-  REAL(wp), PARAMETER :: rhoD = 1.0D-5
-  REAL(wp), PARAMETER :: rhoB = 3.0D-6
+  REAL(wp), PARAMETER :: rhoD = 5.0D-4
+  REAL(wp), PARAMETER :: rhoB = 1.0D-5
 
   INTEGER, PARAMETER :: maxIter = 1000, simSz = 100000
   INTEGER, PARAMETER :: ySz = 31
   INTEGER, PARAMETER :: bSz = 600
   REAL(wp), PARAMETER :: tolErrV = 1.0D-6, tolErrQ = 1.0D-6
-  REAL(wp), PARAMETER :: bMin = 0.0_wp, bMax = 0.6_wp
+  REAL(wp), PARAMETER :: bMin = 0.0_wp, bMax = 0.75_wp
   REAL(wp), PARAMETER :: veryNegative = -1.0D+6
 
   REAL(wp), DIMENSION(ySz) :: yGrid(ySz), yStat(ySz)
@@ -75,14 +75,14 @@ CONTAINS
 
   SUBROUTINE simulate()
     INTEGER, DIMENSION(:), ALLOCATABLE :: ySimIx, bSimIx, bPrSimIx, dSimIx
-    REAL(wp), DIMENSION(:), ALLOCATABLE :: spSim
+    REAL(wp), DIMENSION(:), ALLOCATABLE :: spSim, cSim, tbSim, gdpSim
     INTEGER :: tIx, iunit
     REAL(wp) :: unifDraw
 
     CALL fixSeed()
     
     ALLOCATE( ySimIx(simSz), bSimIx(simSz), bPrSimIx(simSz), dSimIx(simSz) )
-    ALLOCATE( spSim(simSz) )
+    ALLOCATE( spSim(simSz), cSIm(simSz), tbSim(simSz), gdpSim(simSz) )
 
     ySimIx(1) = CEILING(REAL(ySz, wp) / 2.0_wp)
     bSimIx(1) = 1
@@ -117,9 +117,16 @@ CONTAINS
       IF (dSimIx(tIx) == 0) THEN ! not in default today
         bPrSimIx(tIx) = simDiscrete( bPol(ySimIx(tIx), bSimIx(tIx), :) )
         spSim(tIx) = kappa * ( 1.0_wp / q1(ySimIx(tIx), bPrSimIx(tIx)) - 1.0_wp )
+        gdpSim(tIx) = yGrid(ySimIx(tIx))
+        cSim(tIx) = gdpSim(tIx) - kappa * bGrid(bSimIx(tIx)) &
+          + q1(ySimIx(tIx), bPrSimIx(tIx)) * (bGrid(bPrSimIx(tIx)) - (1.0_wp - delta) * bGrid(bSimIx(tIx)))
+        tbSim(tIx) = gdpSim(tIx) - cSim(tIx)
       ELSE ! in default today
         bPrSimIx(tIx) = bSimIx(tIx)
         spSim(tIx) = veryNegative
+        gdpSim(tIx) = hFun(yGrid(ySimIx(tIx)))
+        cSim(tIx) = gdpSim(tIx)
+        tbSim(tIx) = 0.0_wp
       END IF
 
       IF (MOD(tIx, 10000) == 0) THEN
@@ -129,8 +136,9 @@ CONTAINS
 
     OPEN(newunit=iunit, file=outDir // "sim.tab")
     DO tIx = 300,simSz
-      WRITE (iunit, "(4(I5,A1),1(ES20.5,A1))") ySimIx(tIx), TAB, bSimIx(tIx), TAB, & 
-        bPrSimIx(tIx), TAB, dSimIx(tIx), TAB, spSim(tIx), TAB
+      WRITE (iunit, "(4(I5,A1),4(ES20.5,A1))") ySimIx(tIx), TAB, bSimIx(tIx), TAB, & 
+        bPrSimIx(tIx), TAB, dSimIx(tIx), TAB, spSim(tIx), TAB, cSim(tIx), TAB, &
+        gdpSim(tIx), TAB, tbSim(tIx), TAB
     END DO
     CLOSE(iunit)
   END SUBROUTINE simulate
