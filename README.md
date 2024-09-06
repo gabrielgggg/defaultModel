@@ -31,7 +31,7 @@ $$ \mathcal{Q}(y', B') = \sum_{B''} \Pr\left( B'' \middle| y', B' \right) q\left
 
 Functional forms and shocks:
 
-$$ u\left(c\right) = (1-\beta) \dfrac{c^{1-\sigma} - 1}{1-\sigma} $$
+$$ u\left(c\right) = \dfrac{c^{1-\sigma} - 1}{1-\sigma} $$
 
 $$ h\left(y\right) = y - \max\\{ 0, \lambda_0 y + \lambda_1 y^2 \\} $$
 
