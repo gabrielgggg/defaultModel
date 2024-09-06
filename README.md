@@ -15,11 +15,11 @@ Repayment values:
 
 $$ W\left(y, B, B'\right) = u\left[ y - \kappa B + q\left(y, B'\right) \left( B' - (1-\delta) B \right) \right] + \beta \mathbb{E}_{y'|y} V\left(y', B'\right) $$
 
-$$ V^r\left(y, B\right) = \rho_B \log \sum_{B'} \exp \left[ \dfrac{W\left(y, B, B'\right))}{\rho_B} \right] $$
+$$ V^r\left(y, B\right) = \rho_B \log \sum_{B'} \exp \left[ \dfrac{W\left(y, B, B'\right)}{\rho_B} \right] $$
 
 Choice probabilities for $B'$:
 
-$$ \Pr\left(B' = x \middle| y, B \right) = \dfrac{ \exp \left[ \dfrac{W\left(y, B, x\right))}{\rho_B} \right] }{\sum_{i} \exp \left[ \dfrac{W\left(y, B, i\right))}{\rho_B} \right]} $$
+$$ \Pr\left(B' = x \middle| y, B \right) = \dfrac{ \exp \left[ \dfrac{W\left(y, B, x\right)}{\rho_B} \right] }{\sum_{i} \exp \left[ \dfrac{W\left(y, B, i\right)}{\rho_B} \right]} $$
 
 Bond price schedule:
 
@@ -31,7 +31,7 @@ $$ \mathcal{Q}(y', B') = \sum_{B''} \Pr\left( B'' \middle| y', B' \right) q\left
 
 Functional forms and shocks:
 
-$$ u\left(c\right) = \dfrac{c^{1-\sigma} - 1}{1-\sigma} $$
+$$ u\left(c\right) = (1-\beta) \dfrac{c^{1-\sigma} - 1}{1-\sigma} $$
 
 $$ h\left(y\right) = y - \max\\{ 0, \lambda_0 y + \lambda_1 y^2 \\} $$
 
