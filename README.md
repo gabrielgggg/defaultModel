@@ -1,5 +1,5 @@
 # Sovereign Default Model with Long-Term Debt
-Computed with taste shocks (discrete choice methods) for $B'$ and $d$. Fortran parallelized with OpenMP. A Python version (with NumPy, Numba, and Matplotlib) is available as well, ported by Grok 4.5 with minimual human supervision.
+Computed with taste shocks (discrete choice methods) for $B'$ and $d$. Fortran parallelized with OpenMP. A Python version (with NumPy, Numba, and Matplotlib) as well as a Python/JAX version are available as well, ported by Grok 4.5 with minimual human supervision. See PYTHON.md for more info.
 
 Value and default option:
 
